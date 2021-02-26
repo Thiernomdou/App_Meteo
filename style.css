@@ -19,6 +19,7 @@ body {
     height: 100vh;
 }
 
+/* partie haute */
 .container {
     width: 800px;
     height: 600px;
@@ -70,3 +71,42 @@ h1 {
     font-size: 40px;
     word-wrap: break-word;
 }
+
+/* fin partie haute */
+
+/* partie bas */
+
+.heure-bloc-prevision {
+    grid-area: 3 / 1 / 4 / -1;
+}
+.jour-prevision-bloc {
+    grid-area: 4 / 1 / 5 / -1;
+}
+
+.heure-bloc-prevision, .jour-prevision-bloc {
+    display: grid;
+    /* 1fr divise les 7blocs colonnes en 
+    même taille */
+    grid-template: 100px / repeat(7, 1fr);
+}
+
+.bloc-h, .bloc-j {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-top: 1px solid #f1f1f1;
+    font-size: 21px;
+}
+/* ne pas mettre de bordure à droite 
+pour les derniers blocs, car notre 
+container a déjà une bordure*/
+.bloc-h:not(:last-child), .bloc-j:not(:last-child) {
+    border-right: 1px solid #f1f1f1;
+}
+
+.bloc-h p, .bloc-j p {
+    margin: 5px;
+}
+
+/* fin partie bas */
