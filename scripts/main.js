@@ -1,3 +1,7 @@
+import tabJoursEnOrdre from './Utilitaire/gestionTemps.js';
+
+console.log("Depuis main JS : " +tabJoursEnOrdre);
+
 const CLEAPI = '6fbf739752280f9ef37af35f1534adbf';
 let resultatsAPI;
 
@@ -7,6 +11,10 @@ const temperature = document.querySelector('.temperature');
 const localisation = document.querySelector('.localisation');
 const heure = document.querySelectorAll('.heure-nom-prevision');
 const tempPourH = document.querySelectorAll('.heure-prevision-valeur');
+const joursDiv = document.querySelectorAll('.jour-prevision-nom');
+const tempJoursDiv = document.querySelectorAll('.jour-prevision-temp');
+const imgIcone = document.querySelector('.logo-meteo');
+const chargementContainer = document.querySelector('.overlay-icone-chargement');
 
 // on  vérifie si le navigateur a la fonctionnalité géolocation
 if(navigator.geolocation) {
@@ -48,7 +56,7 @@ function AppelAPI(long, lat) {
         données que je vais utiliser, donc encore un then
         pour récupérer les données au format JSON*/
         .then((data) => {
-            console.log(data);
+            //console.log(data);
             resultatsAPI = data;
 
             //affecter automatiquement nos données API aux HTML
@@ -86,6 +94,26 @@ function AppelAPI(long, lat) {
                 //hourly, c'est les températures par heure que renvoie l'API
                 tempPourH[j].innerText = `${Math.trunc(resultatsAPI.hourly[j * 3].temp)} °`;
             }
+
+
+            //trois premières lettres des jours
+            for(let k = 0; k < tabJoursEnOrdre.length; k++) {
+                joursDiv[k].innerText = tabJoursEnOrdre[k].slice(0,3);
+            }
+            
+            //Temps par jour
+            for(let m = 0; m < 7; m++) {
+                tempJoursDiv[m].innerText = `${Math.trunc(resultatsAPI.daily[m+1].temp.day)}°`;
+            }
+
+            //Icone dynamique
+            if(heureActuelle >= 6 && heureActuelle < 21) {
+                imgIcone.src = `ressources/jour/${resultatsAPI.current.weather[0].icon}.svg`;
+            } else {
+                imgIcone.src = `ressources/nuit/${resultatsAPI.current.weather[0].icon}.svg`;
+            }
+
+            chargementContainer.classList.add('disparition');
         });
        
 }
