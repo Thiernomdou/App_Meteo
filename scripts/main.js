@@ -3,7 +3,9 @@ import tabJoursEnOrdre from './Utilitaire/gestionTemps.js';
 console.log("Depuis main JS : " +tabJoursEnOrdre);
 
 const CLEAPI = '6fbf739752280f9ef37af35f1534adbf';
+const CLEAPI1 = '6fbf739752280f9ef37af35f1534adbf';
 let resultatsAPI;
+let resultatsAPI1;
 
 //récupérer les éléments HTML
 const temps = document.querySelector('.temps');
@@ -56,13 +58,15 @@ function AppelAPI(long, lat) {
         données que je vais utiliser, donc encore un then
         pour récupérer les données au format JSON*/
         .then((data) => {
-            //console.log(data);
+            console.log(data);
             resultatsAPI = data;
+            
+
 
             //affecter automatiquement nos données API aux HTML
             temps.innerText = resultatsAPI.current.weather[0].description;
             temperature.innerText = `${Math.trunc(resultatsAPI.current.temp)}°`;
-            localisation.innerText = resultatsAPI.timezone;
+            
            
             //les heures, par tranche de trois, avec leur température
             
@@ -114,6 +118,22 @@ function AppelAPI(long, lat) {
             }
 
             chargementContainer.classList.add('disparition');
+        });
+
+        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&exclude=minutely&units=metric&lang=fr&appid=${CLEAPI1}`)
+        /*l'API passe au format JSON, 
+        elle retourne toujourrs en format JSON*/
+        .then((reponse1) => {
+            return reponse1.json();
+        })
+        /*ce que l'API va retourner en format, son les
+        données que je vais utiliser, donc encore un then
+        pour récupérer les données au format JSON*/
+        .then((data1) => {
+            console.log(data1);
+            resultatsAPI1 = data1;
+
+            localisation.innerText = resultatsAPI1.name;
         });
        
 }
